@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 网络请求错误页面 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_error"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F6"
+    android:clipToPadding="true"
+    android:visibility="gone"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_no_network" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="您的手机网络不流畅哦"
+            android:textColor="#282828"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="请检查手机是否联网"
+            android:textColor="#D7D7D7" />
+
+        <Button
+            android:id="@+id/b_anew_upload"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/sha_button_common_circular"
+            android:text="重新加载"
+            android:visibility="gone"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>

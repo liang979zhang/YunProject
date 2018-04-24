@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.example.administrator.yunproject"
+        minSdkVersion 18
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+    }
+    buildTypes {
+        release {
+//            shrinkResources true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // 自定义APK安装包名
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                output ->
+                    def outputFile = output.outputFile
+                    if (outputFile.name.contains("debug")) {
+                        outputFileName = new File("../debug/", "新华德.apk")
+                    }
+            }
+    }
+
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    dexOptions {
+        incremental true
+    }
+
+    sourceSets{
+
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    compile 'com.android.support:design:26.1.0'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile 'com.github.zd938780519:all_Reference_package:1.5'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.yinglan.alphatabs:library:1.0.8'
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
+    compile 'com.lzy.widget:imagepicker:0.5.0'
+    compile project(':gsyvideoplayer')
+    compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v2.4'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okio:okio:1.5.0'
+    compile 'com.apkfuns.logutils:library:1.0.4'
+    //指定版本
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.lovedise:permissiongen:0.0.6'
+    //    compile 'com.uphyca:stetho_realm:2.0.0'
+    //    compile 'com.tamic.fastdownloader:Android-FastDownloader:1.0.3'
+    compile 'com.jwenfeng.pulltorefresh:library:1.0.3'
+    implementation files('libs/alipaySdk-20180403.jar')
+
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
+//    compile 'io.github.mayubao:pay_library:1.0.1'
+}

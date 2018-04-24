@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.administrator.yunproject.MainActivity">
+
+
+    <LinearLayout
+        android:id="@+id/ll_root"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View style="@style/Line"/>
+
+        <com.yinglan.alphatabs.AlphaTabsIndicator
+            android:id="@+id/alphaIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <com.yinglan.alphatabs.AlphaTabView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp"
+                app:tabIconNormal="@drawable/dongtai"
+                app:tabIconSelected="@drawable/dongtaixuan"
+                app:tabText="动态"
+                app:tabTextSize="12sp"
+                app:textColorNormal="@color/txt_light_gray"
+                app:textColorSelected="@color/bg_bule" />
+
+            <com.yinglan.alphatabs.AlphaTabView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp"
+                app:tabIconNormal="@drawable/faxian"
+                app:tabIconSelected="@drawable/faxianxuan"
+                app:tabText="发现"
+                app:tabTextSize="12sp"
+                app:textColorNormal="@color/txt_light_gray"
+                app:textColorSelected="@color/bg_bule" />
+
+            <com.yinglan.alphatabs.AlphaTabView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp"
+                app:tabIconNormal="@drawable/wode"
+                app:tabIconSelected="@drawable/wodexuan"
+                app:tabText="我"
+                app:tabTextSize="12sp"
+                app:textColorNormal="@color/txt_light_gray"
+                app:textColorSelected="@color/bg_bule" />
+
+
+
+        </com.yinglan.alphatabs.AlphaTabsIndicator>
+
+    </LinearLayout>
+
+
+    <include layout="@layout/activity_error" />
+
+</LinearLayout>
