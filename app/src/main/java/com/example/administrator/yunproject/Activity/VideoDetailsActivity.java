@@ -3,6 +3,7 @@ package com.example.administrator.yunproject.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,10 +20,13 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +41,7 @@ import com.example.administrator.yunproject.Bean.CollectVideoBean;
 import com.example.administrator.yunproject.Bean.VIdeoPalyerBean;
 import com.example.administrator.yunproject.Bean.VideoIndexInfo;
 import com.example.administrator.yunproject.Bean.VideoListBean;
+import com.example.administrator.yunproject.Bean.userPeople;
 import com.example.administrator.yunproject.Fragment.MoreDialogFragment;
 import com.example.administrator.yunproject.Listener.OnRecyclerViewItemClickListener;
 import com.example.administrator.yunproject.Listener.VideoListener;
@@ -48,7 +53,6 @@ import com.example.administrator.yunproject.Until.GsonUtils;
 import com.example.administrator.yunproject.Until.OtherPeople;
 import com.example.administrator.yunproject.Until.OtherUtils;
 import com.example.administrator.yunproject.Until.SharedPreferencesUtility;
-import com.example.administrator.yunproject.Bean.userPeople;
 import com.example.administrator.yunproject.okhttp.OkHttpUtil;
 import com.example.administrator.yunproject.okhttp.ProgressHelper;
 import com.example.administrator.yunproject.okhttp.UIProgressResponseListener;
@@ -104,8 +108,8 @@ public class VideoDetailsActivity extends BaseActivity {
     public final static String TAG = "MomentsVideoViewHolder";
     @BindView(R.id.list_item_video_player)
     StandardGSYVideoPlayer listItemVideoPlayer;
-    @BindView(R.id.post_detail_nested_scroll)
-    NestedScrollView postDetailNestedScroll;
+    //    @BindView(R.id.post_detail_nested_scroll)
+//    NestedScrollView postDetailNestedScroll;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     //    @BindView(R.id.load_voide)
@@ -128,6 +132,8 @@ public class VideoDetailsActivity extends BaseActivity {
     TextView tvCancel;
     @BindView(R.id.change_speed)
     TextView changeSpeed;
+    @BindView(R.id.rl_main)
+    RelativeLayout rlMain;
     private VideoDetailsActivity instance;
     private OrientationUtils orientationUtils;
     private File file;
@@ -150,8 +156,7 @@ public class VideoDetailsActivity extends BaseActivity {
     private NotificationManager notificationManager;
     private LinearLayout llzfb;
     private LinearLayout llwx;
-    private TextView tv_qd;
-    private TextView tv_cancel;
+    private ImageView tv_cancel;
     private RadioButton rb_zfi;
     private RadioButton rb_wx;
     private int zfstate = -1;//支付选择
@@ -160,6 +165,8 @@ public class VideoDetailsActivity extends BaseActivity {
     private IWXAPI msgApi;
 
     String url = "http://wxpay.wxutil.com/pub_v2/app/app_pay.php";
+    private LinearLayout ll_zhifu;
+    private PopupWindow window2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -514,11 +521,9 @@ public class VideoDetailsActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.post_detail_nested_scroll, R.id.change_speed, R.id.more_image, R.id.tv_coll, R.id.iv_coll, R.id.tv_buy, R.id.tv_cancel})
+    @OnClick({R.id.change_speed, R.id.more_image, R.id.tv_coll, R.id.iv_coll, R.id.tv_buy, R.id.tv_cancel})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.post_detail_nested_scroll:
-                break;
             case R.id.change_speed: //加速播放
                 resolveTypeUI();
                 break;
@@ -549,14 +554,30 @@ public class VideoDetailsActivity extends BaseActivity {
                 break;
 
             case R.id.tv_buy:
-//                ToastShort(instance, "平台暂未设置密钥无法购买！");
-                AlertDialog.Builder alertpaybuild = new AlertDialog.Builder(instance);
-                LayoutInflater inflater = getLayoutInflater();
-                View view2 = inflater.inflate(R.layout.view_alert_pay, null);
-                alertpaybuild.setView(view2);
-                setpayView(view2);
-                alertlogpay = alertpaybuild.create();
-                alertlogpay.show();
+
+                WindowManager wm = (WindowManager) this
+                        .getSystemService(Context.WINDOW_SERVICE);
+                int width = wm.getDefaultDisplay().getWidth();
+                int height = wm.getDefaultDisplay().getHeight();
+                LayoutInflater inflater2 = getLayoutInflater();
+                View view3 = inflater2.inflate(R.layout.view_alert_pay, null);
+                // 创建PopupWindow对象，其中：
+                // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+                // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
+                window2 = new PopupWindow(view3, width, height - 200, true);
+                // 设置PopupWindow的背景
+                window2.setBackgroundDrawable(getResources().getDrawable(R.drawable.beijing));
+                // 设置PopupWindow是否能响应外部点击事件
+                window2.setOutsideTouchable(true);
+                // 设置PopupWindow是否能响应点击事件
+                window2.setTouchable(true);
+                // 显示PopupWindow，其中：
+                // 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移
+                window2.showAtLocation(rlMain, Gravity.BOTTOM, 0, -500);
+
+                setpayView(view3);
+
+
                 break;
 
             case R.id.tv_cancel:
@@ -572,20 +593,15 @@ public class VideoDetailsActivity extends BaseActivity {
      * @param view2
      */
     private void setpayView(View view2) {
-        llzfb = view2.findViewById(R.id.ll_zfb);
-        llwx = view2.findViewById(R.id.ll_wx);
-        tv_qd = view2.findViewById(R.id.tv_qd);
-        tv_cancel = view2.findViewById(R.id.tv_cancel);
+        tv_cancel = view2.findViewById(R.id.iv_guanbi);
         rb_zfi = view2.findViewById(R.id.rb_zfi);
         rb_wx = view2.findViewById(R.id.rb_wx);
 
-
-        llzfb.setOnClickListener(new MyClick());
-        llwx.setOnClickListener(new MyClick());
-        tv_qd.setOnClickListener(new MyClick());
+        ll_zhifu = view2.findViewById(R.id.ll_zhifu);
         tv_cancel.setOnClickListener(new MyClick());
         rb_zfi.setOnClickListener(new MyClick());
         rb_wx.setOnClickListener(new MyClick());
+        ll_zhifu.setOnClickListener(new MyClick());
 
 
     }
@@ -792,99 +808,6 @@ public class VideoDetailsActivity extends BaseActivity {
 
     }
 
-    /**
-     * 视频下载
-     */
-    private void downloadPic(String videourl, String title, TextView updataVideo, String videoId) {
-        UIProgressResponseListener uiProgressResponseListener = new UIProgressResponseListener() {
-            @Override
-            public void onUIResponseProgress(long bytesRead, long contentLength, boolean done) {
-                LogUtils.e("bytesRead:" + bytesRead);
-                LogUtils.e("contentLength:" + contentLength);
-                LogUtils.e("done:" + done);
-
-                if (contentLength != -1) {
-//                     LogUtils.e( (100 * bytesRead) / contentLength + "% d");
-                }
-                LogUtils.e("================================");
-                //ui层回调
-
-                if (done) {
-                    getCollectData(videoId);
-                    updataVideo.setText("下载完成");
-                    updataVideo.setTextColor(Color.parseColor("#000000"));
-
-                    if (userId != 0) {
-                        String videoUrl = String.valueOf(file);
-                        setDataStorage(videoUrl, title);   //数据存储
-                    }
-
-                } else {
-                    updataVideo.setText("下载进度" + ((100 * bytesRead) / contentLength) + "%");
-//                    builderProgress.setProgress(100, (int) ((100 * bytesRead) / contentLength), false);
-//                    //再次通知
-//                    notificationManager.notify(2, builderProgress.build());
-
-                    createNotification(((100 * bytesRead) / contentLength));
-
-                }
-            }
-        };
-
-        Request request1 = new Request.Builder()
-                .url(videourl)
-                .build();
-
-        //包装Response使其支持进度回调
-        ProgressHelper.addProgressResponseListener(OkHttpUtil.mOkHttpClient, uiProgressResponseListener)
-                .newCall(request1)
-                .enqueue(new Callback() {
-                             @Override
-                             public void onFailure(Request request, IOException e) {
-                                 Log.e("TAG", "error ", e);
-                             }
-
-                             @Override
-                             public void onResponse(Response response) throws IOException {
-                                 InputStream inputStream = null;
-                                 OutputStream output = null;
-                                 try {
-                                     inputStream = response.body().byteStream();
-                                     file = new File(getCacheDir(), BitmapImageSave.generateFileName());
-                                     output = new FileOutputStream(file);
-                                     byte[] buff = new byte[1024 * 4];
-                                     while (true) {
-                                         int readed = inputStream.read(buff);
-                                         if (readed == -1) {
-                                             break;
-                                         }
-                                         //write buff
-                                         output.write(buff, 0, readed);
-                                     }
-                                     output.flush();
-
-//                                     String imagePath = BitmapImageSave.saveBitmap(instance,bitmap);
-                                 } catch (IOException e) {
-//                                     file = null;
-                                     e.printStackTrace();
-                                 } finally {
-                                     if (inputStream != null) {
-                                         inputStream.close();
-                                     }
-                                     if (output != null) {
-                                         output.close();
-                                     }
-                                 }
-//                                 File filePic = new File(file + BitmapImageSave.generateFileName() +"video.mp4");
-//                                 String savePath =  BitmapImageSave.generateFileName() +file;
-                                 Log.e("filePic====", String.valueOf(file));
-
-
-                             }
-                         }
-                );
-    }
-
 
     public void createNotification(long pro) {
         //进度条通知
@@ -989,7 +912,7 @@ public class VideoDetailsActivity extends BaseActivity {
                 });
     }
 
-
+    //弹出框点击
     private class MyClick implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -997,88 +920,92 @@ public class VideoDetailsActivity extends BaseActivity {
             if (myHandler == null) {
                 myHandler = new MyHandler();
             }
+
             switch (view.getId()) {
-//                case R.id.ll_zfb:
                 case R.id.rb_zfi:
                     rb_zfi.setChecked(true);
                     rb_wx.setChecked(false);
                     zfstate = 1;
 
                     break;
-//                case R.id.ll_wx:
                 case R.id.rb_wx:
                     rb_zfi.setChecked(false);
                     rb_wx.setChecked(true);
                     zfstate = 2;
                     break;
-                case R.id.tv_qd:
-
-                    if (alertlogpay != null) {
-                        alertlogpay.dismiss();
+                case R.id.iv_guanbi:
+                    if (window2 != null) {
+                        window2.dismiss();
                     }
+                    break;
 
+                case R.id.ll_zhifu:
+                    if (window2 != null) {
+                        window2.dismiss();
+                    }
                     //TODO
                     if (zfstate == 1) {
                         payAli();
                     } else if (zfstate == 2) {
-
-                        if (!OtherUtils.isWXAppInstalledAndSupported(instance)) {
-                            Toast.makeText(instance, "没有安装微信", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        Toast.makeText(instance, "获取订单中...", Toast.LENGTH_SHORT).show();
-                        try {
-                            OkHttpClient client = new OkHttpClient();
-                            okhttp3.Request request = new okhttp3.Request.Builder()
-                                    .url(url)
-                                    .build();
-                            Call call = client.newCall(request);
-                            call.enqueue(new okhttp3.Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-
-                                }
-
-                                @Override
-                                public void onResponse(Call call, okhttp3.Response response) throws IOException {
-//                                    Log.e("tag", response.body().string());
-                                    String body = response.body().string();
-                                    PayReq payReq = GsonUtils.jsonToBean(body, PayReq.class);
-
-                                    Message message = new Message();
-                                    message.what = 1003;
-                                    message.obj = payReq;
-                                    myHandler.sendMessage(message);
-
-
-                                }
-                            });
-
-                        } catch (Exception e) {
-                            Log.e("PAY_GET", "异常：" + e.getMessage());
-                            Toast.makeText(instance, "异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                        wxpay();
                     }
 
                     break;
-                case R.id.tv_cancel:
-                    if (alertlogpay != null) {
-                        alertlogpay.dismiss();
-                    }
-                    break;
-
             }
         }
     }
 
+    //微信支付
+    private void wxpay() {
+        if (!OtherUtils.isWXAppInstalledAndSupported(instance)) {
+            Toast.makeText(instance, "没有安装微信", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Toast.makeText(instance, "获取订单中...", Toast.LENGTH_SHORT).show();
+        try {
+            OkHttpClient client = new OkHttpClient();
+            okhttp3.Request request = new okhttp3.Request.Builder()
+                    .url(url)
+                    .build();
+            Call call = client.newCall(request);
+            call.enqueue(new okhttp3.Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, okhttp3.Response response) throws IOException {
+//                                    Log.e("tag", response.body().string());
+                    String body = response.body().string();
+                    PayReq payReq = GsonUtils.jsonToBean(body, PayReq.class);
+
+                    Message message = new Message();
+                    message.what = 1003;
+                    message.obj = payReq;
+                    myHandler.sendMessage(message);
+
+
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("PAY_GET", "异常：" + e.getMessage());
+            Toast.makeText(instance, "异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //支付宝支付
     private void payAli() {
         ZfbPayBean zfbPayBean = new ZfbPayBean();
         zfbPayBean.setSubject(title);
         zfbPayBean.setTotal_amount(String.valueOf(price));
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(instance, AlipayConstants.PID, true, zfbPayBean);
+        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(instance, AlipayConstants.APPID, false, zfbPayBean);
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+
         boolean rsa2 = (AlipayConstants.RSA2_PRIVATE.length() > 0);
         String privateKey = rsa2 ? AlipayConstants.RSA2_PRIVATE : AlipayConstants.RSA_PRIVATE;
+
         String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
         final String orderInfo = orderParam + "&" + sign;
 
@@ -1122,8 +1049,12 @@ public class VideoDetailsActivity extends BaseActivity {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
+                        isdialog = true;
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(instance, "支付成功", Toast.LENGTH_SHORT).show();
+                        tvBuy.setVisibility(View.GONE);
+                        tvCancel.setVisibility(View.GONE);
+                        listItemVideoPlayer.onVideoResume();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(instance, "支付失败", Toast.LENGTH_SHORT).show();
@@ -1131,7 +1062,7 @@ public class VideoDetailsActivity extends BaseActivity {
                     break;
 
                 case 1003:
-                    PayReq  payReq= (PayReq) msg.obj;
+                    PayReq payReq = (PayReq) msg.obj;
                     msgApi.sendReq(payReq);
 
                     break;
@@ -1140,4 +1071,8 @@ public class VideoDetailsActivity extends BaseActivity {
 
         }
     }
+
+
+
+
 }

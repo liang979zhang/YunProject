@@ -1,113 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/beijing"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="选择支付方式" />
-
-
     <LinearLayout
-        android:id="@+id/ll_zfb"
+        android:id="@+id/ll_aa"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/baidi"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-
-            <RadioButton
-                android:id="@+id/rb_zfi"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/radiobutton_background"
-                android:button="@null" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="支付宝" />
-
-        </LinearLayout>
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="请在两小时内完成"
+            android:textColor="@color/black" />
 
 
         <LinearLayout
-            android:id="@+id/ll_wx"
-            android:layout_width="0dp"
+            android:id="@+id/ll_zfb"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:layout_marginTop="31dp"
             android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/rb_wx"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/radiobutton_background"
-                android:button="@null" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="支付宝" />
+                android:layout_marginLeft="30dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:id="@+id/rb_zfi"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/radiobutton_background"
+                    android:button="@null" />
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginLeft="14dp"
+                    android:src="@drawable/zhifubao" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="24dp"
+                    android:text="支付宝"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/secondary_text" />
+
+            <LinearLayout
+                android:id="@+id/ll_wx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_wx"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/radiobutton_background"
+                    android:button="@null" />
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginLeft="14dp"
+                    android:src="@drawable/weixin" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="24dp"
+                    android:text="微信"
+
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/secondary_text" />
+
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_zhifu"
+                android:layout_width="210dp"
+                android:layout_height="50dp"
+                android:background="@drawable/tv_shap_bg"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="立即支付" />
+            </LinearLayout>
+
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+    <ImageView
+        android:id="@+id/iv_guanbi"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/ll_aa"
+        android:layout_gravity="right"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="-20dp"
+        android:src="@drawable/guanbi" />
 
-
-            <TextView
-                android:id="@+id/tv_qd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="确定"
-                android:textSize="25sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/tv_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="取消"
-                android:textSize="25sp" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

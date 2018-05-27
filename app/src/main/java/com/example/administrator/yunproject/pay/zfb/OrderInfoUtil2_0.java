@@ -71,6 +71,7 @@ public class OrderInfoUtil2_0 {
      * @return
      */
     public static Map<String, String> buildOrderParamMap(Activity activity,String app_id, boolean rsa2, ZfbPayBean zfbPayBean) {
+
         Map<String, String> keyValues = new HashMap<String, String>();
 
         keyValues.put("app_id", app_id);
@@ -80,11 +81,9 @@ public class OrderInfoUtil2_0 {
         keyValues.put("charset", "utf-8");
 
         keyValues.put("method", "alipay.trade.app.pay");
-
-        keyValues.put("sign_type", rsa2 ? AlipayConstants.RSA2_PRIVATE : AlipayConstants.RSA_PRIVATE);
-
+        keyValues.put("notify_url", "https://www.alipay.com");
+        keyValues.put("sign_type", rsa2 ? "RSA2" : "RSA");
         keyValues.put("timestamp", getDate());
-
         keyValues.put("version", getSDKVersion(activity));
 
         return keyValues;
@@ -97,6 +96,7 @@ public class OrderInfoUtil2_0 {
         return format;
     }
 
+    //订单信息
     public static String getzfbData(ZfbPayBean zfbPayBean) {
 
         Map<String, String> aaMap = new HashMap<>();

@@ -22,7 +22,6 @@ import com.example.administrator.yunproject.Activity.BaseWebActivity;
 import com.example.administrator.yunproject.Activity.DiscussActivity;
 import com.example.administrator.yunproject.Activity.InterlocutionActivity;
 import com.example.administrator.yunproject.Activity.QuestionsActivity;
-import com.example.administrator.yunproject.Activity.VideoDetailsActivity;
 import com.example.administrator.yunproject.R;
 import com.example.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
@@ -35,6 +34,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2018/4/13.
  */
 
+@SuppressLint("ValidFragment")
 public class MoreDialogFragment extends DialogFragment {
     @BindView(R.id.iamge)
     ImageView iamge;

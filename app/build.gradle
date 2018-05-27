@@ -1,6 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 android {
+    signingConfigs {
+        debug {
+            keyPassword '123456'
+            storeFile file('E:/android/keystore.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+        }
+        release {
+            keyPassword '123456'
+            storeFile file('E:/android/keystore.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.administrator.yunproject"
@@ -14,12 +28,22 @@ android {
     }
     buildTypes {
         release {
-//            shrinkResources true
+            zipAlignEnabled false
+            shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+            signingConfig signingConfigs.release
 
+        }
+        debug {
+            signingConfig signingConfigs.release
+
+            debuggable true
+            zipAlignEnabled false
+
+        }
+
+    }
     // 自定义APK安装包名
     android.applicationVariants.all {
         variant ->
@@ -31,22 +55,26 @@ android {
                     }
             }
     }
-
-
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-
     dexOptions {
         incremental true
     }
+    sourceSets {
 
-    sourceSets{
-
-        main{
+        main {
             jniLibs.srcDirs = ['libs']
         }
+    }
+
+
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -77,8 +105,6 @@ dependencies {
     //    compile 'com.tamic.fastdownloader:Android-FastDownloader:1.0.3'
     compile 'com.jwenfeng.pulltorefresh:library:1.0.3'
     implementation files('libs/alipaySdk-20180403.jar')
-
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-
-//    compile 'io.github.mayubao:pay_library:1.0.1'
+    //    compile 'io.github.mayubao:pay_library:1.0.1'
 }

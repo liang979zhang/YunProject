@@ -28,9 +28,8 @@ import retrofit2.http.PartMap;
 
 public interface ApiService {
 
-    final String BASE_URL = "http://192.168.252.111:88/";//内网
-//        public static final String BASE_URL = "http://47.100.160.168:8081/";//外网
-
+//    final String BASE_URL = "http://192.168.252.111:88/";//内网
+        public static final String BASE_URL = "http://47.75.81.119:8081/";//外网
 
 
 

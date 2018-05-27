@@ -190,7 +190,6 @@ public class MyFragment extends BaseFragment {
         mFragments.add(CacheFragment.newInstance(1));
         mFragments.add(CollectFragment.newInstance(2));
         mFragments.add(QuestionsFragment.newInstance(3));
-//                                viewpager.setCurrentItem(0);
         viewpager.setOffscreenPageLimit(4);
         // 第二步：为ViewPager设置适配器
         BaseFragmentAdapter adapter = new BaseFragmentAdapter(getChildFragmentManager(), mFragments, mTitles);
@@ -457,10 +456,10 @@ public class MyFragment extends BaseFragment {
                     headImage = datae.path;
                     Log.i(TAG, "images1111=====" + datae.path);
 //                    setLoadImage(headImage,41);
-                    setLoadImage2(headImage, 41);
-
 
                 }
+                setLoadImage2(headImage, 41);
+
 
 
 //                LoadHeadImage(headImage);
